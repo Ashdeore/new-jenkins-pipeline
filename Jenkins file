@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    environment {
+        TESTING_ENVIRONMENT = "Automated"
+        PRODUCTION_ENVIRONMENT = "Ashwini"
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'fetch the source code....'
+                // Add your build commands here
+            }
+        }
+        stage('Test Unit and Integration Tests') {
+            steps {
+                echo 'Unit test and Integration test'
+                // Add your test commands here
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                echo 'Check the quality of the code...'
+                // Add your code quality check commands here
+            }
+        }
+        stage('Security scan') {
+            steps {
+                echo 'perform a security scan on the code using a tool to identify any vulnerabilities'
+                // Add your security scan commands here
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'deploy the application to a staging server'
+                // Add your deployment to staging commands here
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'run integration tests on the staging environment to ensure the application functions as expected in a production-like environment.'
+                // Add your integration test commands here
+            }
+        }
+        stage('Deploy to Production'){
+            steps {
+                echo 'deploy the application to a production server'
+                // Add your deployment to production commands here
+            }
+        }
+    }
+    post {
+        always {
+            emailext body: "Test stage finished: ${currentBuild.result}", subject: "Test Stage ${currentBuild.result}", to: "ashwinideore2704@gmail.com", attachmentsPattern: "*/.log"
+        }
+    }
+}
